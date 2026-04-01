@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">PlacarBasquete</string>
+    <string name="title">Basquete do DC</string>
+    <string name="subtitle">Placar</string>
+    <string name="btn_lance_livre">Lance Livre</string>
+    <string name="btn_dois_pontos">2 Pontos</string>
+    <string name="btn_tres_pontos">3 Pontos</string>
+    <string name="btn_voltar_lance">Voltar Lance</string>
 </resources>

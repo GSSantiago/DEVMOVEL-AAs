@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
             binding.placarDireito.setText(String.valueOf(value));
         });
 
+        placarViewModel.getDesfazerLance().observe(this, desfazerLance -> {
+            binding.voltarLance.setEnabled(desfazerLance);
+        });
+
         /* Lado esquerdo */
         binding.lanceLivreEsquerdo.setOnClickListener(v -> {
             placarViewModel.addPoints("esquerdo", 1);
@@ -60,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.tresPontosDireito.setOnClickListener(v -> {
             placarViewModel.addPoints("direito", 3);
+        });
+
+        /* Botãõ desfazer lance */
+        binding.voltarLance.setOnClickListener(v -> {
+            placarViewModel.desfazerLance();
         });
 
     }

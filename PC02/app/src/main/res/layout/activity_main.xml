@@ -56,7 +56,7 @@
         app:layout_constraintVertical_bias="0.359">
 
         <Button
-            android:id="@+id/lanceLIvreEsquerdo"
+            android:id="@+id/lanceLivreEsquerdo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -93,7 +93,7 @@
         app:layout_constraintVertical_bias="0.358">
 
         <Button
-            android:id="@+id/lanceLIvreDireito"
+            android:id="@+id/lanceLivreDireito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -128,7 +128,7 @@
         app:layout_constraintTop_toBottomOf="@+id/subtitle">
 
         <TextView
-            android:id="@+id/PlacarEsquerdo"
+            android:id="@+id/placarEsquerdo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -148,7 +148,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/PlacarDireito"
+            android:id="@+id/placarDireito"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

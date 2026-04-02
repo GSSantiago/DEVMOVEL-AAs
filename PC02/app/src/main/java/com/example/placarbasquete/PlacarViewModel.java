@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
-public class PlacarVIewModel extends ViewModel{
+public class PlacarViewModel extends ViewModel{
     private final MutableLiveData<Integer> pontuacaoEsquerdo = new MutableLiveData<>(0);
     private final MutableLiveData<Integer> pontuacaoDireito = new MutableLiveData<>(0);
 

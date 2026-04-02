@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">PC02</string>
     <string name="title">Basquete do DC</string>
     <string name="subtitle">Placar</string>
     <string name="btn_lance_livre">Lance Livre</string>

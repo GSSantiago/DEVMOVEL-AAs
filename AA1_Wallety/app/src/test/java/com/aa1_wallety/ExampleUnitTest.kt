@@ -1,4 +1,4 @@
-package com.example.aa1_wallety
+package com.aa1_wallety
 
 import org.junit.Test
 

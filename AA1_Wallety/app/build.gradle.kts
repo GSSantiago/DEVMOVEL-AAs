@@ -1,16 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-}
+    id("com.google.devtools.ksp")}
+
 
 android {
-    namespace = "com.example.aa1_wallety"
+    namespace = "com.aa1_wallety"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.aa1_wallety"
+        applicationId = "com.aa1_wallety"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -38,6 +39,21 @@ android {
 }
 
 dependencies {
+    // Room
+    val room_version = "2.7.0-alpha11";
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+
+    // Retrofit e Gson
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // ViewModel Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    // Navegação
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

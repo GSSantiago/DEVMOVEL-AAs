@@ -1,4 +1,4 @@
-package com.example.aa1_wallety.ui.theme
+package com.aa1_wallety.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

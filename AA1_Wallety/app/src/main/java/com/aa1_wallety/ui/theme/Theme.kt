@@ -1,6 +1,5 @@
-package com.example.aa1_wallety.ui.theme
+package com.aa1_wallety.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

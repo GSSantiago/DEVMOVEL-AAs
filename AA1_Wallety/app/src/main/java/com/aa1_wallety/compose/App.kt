@@ -21,7 +21,10 @@ fun WalletyApp() {
             )
         }
         composable("home") {
-            Text("Home Screen")
+            HomeScreen(
+                viewModel = viewModel,
+                onNavigateToFamily = { navController.navigate("family") }
+            )
         }
         composable("family") {
             Text("Family Screen")

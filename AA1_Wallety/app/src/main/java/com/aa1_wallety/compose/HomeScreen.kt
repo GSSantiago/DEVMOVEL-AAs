@@ -8,11 +8,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.aa1_wallety.compose.components.AddEntryModal
 import com.aa1_wallety.compose.components.EntryCard
 import com.aa1_wallety.compose.components.BottomNavigation
 import com.aa1_wallety.ui.theme.*
@@ -24,6 +28,7 @@ fun HomeScreen(
     onNavigateToLogin: () -> Unit
 ) {
     val entries by viewModel.entries.collectAsState()
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = GreenBackground,
@@ -58,7 +63,7 @@ fun HomeScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Button(
-                    onClick = { },
+                    onClick = { showDialog = true },
                     colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -73,6 +78,14 @@ fun HomeScreen(
                     EntryCard(entry = entry)
                 }
             }
+        }
+        if (showDialog) {
+            AddEntryModal(
+                onDismiss = { showDialog = false },
+                onSave = {
+                    println("Oii")
+                }
+            )
         }
     }
 }

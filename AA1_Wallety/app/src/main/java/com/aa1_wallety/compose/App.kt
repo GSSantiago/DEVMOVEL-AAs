@@ -23,11 +23,17 @@ fun WalletyApp() {
         composable("home") {
             HomeScreen(
                 viewModel = viewModel,
-                onNavigateToFamily = { navController.navigate("family") }
+                onNavigateToFamily = { navController.navigate("family") },
+                onNavigateToLogin = { navController.navigate("login") }
+
             )
         }
         composable("family") {
-            Text("Family Screen")
+            FamilyScreen(
+                viewModel = viewModel,
+                onNavigateToHome = { navController.navigate("home")},
+                onNavigateToLogin = { navController.navigate("login") }
+            )
         }
     }
 }

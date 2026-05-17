@@ -20,7 +20,8 @@ import com.aa1_wallety.ui.theme.*
 @Composable
 fun HomeScreen(
     viewModel: WalletyViewModel,
-    onNavigateToFamily: () -> Unit
+    onNavigateToFamily: () -> Unit,
+    onNavigateToLogin: () -> Unit
 ) {
     val entries by viewModel.entries.collectAsState()
 
@@ -30,7 +31,8 @@ fun HomeScreen(
             BottomNavigation(
                 currentRoute = "home",
                 onNavigateToFamily = onNavigateToFamily,
-                onNavigateToHome = {}
+                onNavigateToHome = {},
+                onNavigateToLogin = onNavigateToLogin
             )
         }
     ) { paddingValues ->

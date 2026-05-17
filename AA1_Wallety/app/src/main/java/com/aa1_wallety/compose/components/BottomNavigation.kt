@@ -15,7 +15,7 @@ import com.aa1_wallety.ui.theme.GreenPrimary
 import com.aa1_wallety.ui.theme.White
 
 @Composable
-fun BottomNavigation(currentRoute: String, onNavigateToFamily: () -> Unit, onNavigateToHome: () -> Unit) {
+fun BottomNavigation(currentRoute: String, onNavigateToFamily: () -> Unit, onNavigateToHome: () -> Unit, onNavigateToLogin: () -> Unit = {}) {
     NavigationBar(containerColor = White) {
         NavigationBarItem(
             icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home") },
@@ -49,7 +49,7 @@ fun BottomNavigation(currentRoute: String, onNavigateToFamily: () -> Unit, onNav
                 unselectedIconColor = GrayText,
                 unselectedTextColor = GrayText
             ),
-            onClick = {}
+            onClick = onNavigateToLogin
         )
     }
 }

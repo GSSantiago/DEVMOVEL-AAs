@@ -14,6 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.aa1_wallety.ui.theme.*
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,13 +25,19 @@ fun AddEntryModal(
     onSave: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var category by remember { mutableStateOf("Alimentação") }
-    val categories = listOf("Alimentação", "Saúde", "Transporte", "Lazer", "Outros")
+    val categoriesDespesa = listOf("Alimentação", "Saúde", "Transporte", "Lazer", "Outros")
+    val categoriesReceita = listOf("Salário", "Freelance", "Presente", "Reembolso", "Outros")
+
+    var category by remember { mutableStateOf(categoriesDespesa[0]) }
+    var categories: List<String> = categoriesDespesa;
+
+    var showDatePicker by remember { mutableStateOf(false) }
+    var date by remember { mutableStateOf("01/01/2026") }
+    val datePickerState = rememberDatePickerState()
 
     var isExpense by remember { mutableStateOf(true) }
     var title by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("R$ 0,00") }
-    var date by remember { mutableStateOf("08/04/2026") }
     var description by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -57,7 +66,11 @@ fun AddEntryModal(
 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(
-                        onClick = { isExpense = true },
+                        onClick = {
+                            isExpense = true
+                            categories  = categoriesDespesa
+                            category = categoriesDespesa[0]
+                                  },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = if (isExpense) RedPrimary else GrayLight
@@ -67,7 +80,11 @@ fun AddEntryModal(
                         Text("Despesa", color = if (isExpense) White else GrayText)
                     }
                     Button(
-                        onClick = { isExpense = false },
+                        onClick = {
+                            isExpense = false
+                            categories = categoriesReceita
+                            category = categoriesReceita[0]
+                                  },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = if (!isExpense) GreenPrimary else GrayLight
@@ -130,15 +147,36 @@ fun AddEntryModal(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                //TODO : Data
                 OutlinedTextField(
                     value = date,
-                    onValueChange = { date = it },
+                    onValueChange = {},
+                    readOnly = true,
                     label = { Text("Data") },
-                    trailingIcon = { Icon(Icons.Default.CalendarToday, "Selecionar Data") },
-                    modifier = Modifier.fillMaxWidth()
+                    trailingIcon = {
+                        IconButton(onClick = { showDatePicker = true }) {
+                            Icon(Icons.Default.CalendarToday, contentDescription = null)
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
+                if (showDatePicker) {
+                    DatePickerDialog(
+                        onDismissRequest = { showDatePicker = false },
+                        confirmButton = {
+                            TextButton(onClick = {
+                                datePickerState.selectedDateMillis?.let {
+                                    date = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+                                        Date(it)
+                                    )
+                                }
+                                showDatePicker = false
+                            }) { Text("OK", color = GreenPrimary) }
+                        }
+                    ) {
+                        DatePicker(state = datePickerState)
+                    }
+                }
                 Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(

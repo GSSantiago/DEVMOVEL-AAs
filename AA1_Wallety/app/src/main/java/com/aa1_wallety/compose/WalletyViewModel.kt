@@ -18,11 +18,18 @@ class WalletyViewModel(private val repository: EntryRepository) : ViewModel() {
 
     init {
         loadEntries()
+        syncWithApi()
+    }
+
+    private fun syncWithApi() {
+        viewModelScope.launch {
+            repository.refreshEntriesFromApi()
+        }
     }
 
     private fun loadEntries() {
         viewModelScope.launch {
-            repository.getAllEntriesStream().collect { dbEntries ->
+            repository.getAllEntries().collect { dbEntries ->
                 entries.clear()
                 entries.addAll(dbEntries)
             }

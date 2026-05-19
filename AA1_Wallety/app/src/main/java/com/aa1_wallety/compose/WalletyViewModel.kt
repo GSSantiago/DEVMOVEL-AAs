@@ -1,26 +1,54 @@
 package com.aa1_wallety.compose
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.viewModelScope
+import com.aa1_wallety.repository.Entry
+import com.aa1_wallety.repository.EntryRepository
+import kotlinx.coroutines.launch
 
-data class FinancialEntry(
-    val id: Int,
-    val title: String,
-    val amount: Double,
-    val type: String,
-    val category: String,
-    val date: String
-)
+class WalletyViewModel(private val repository: EntryRepository) : ViewModel() {
 
-class WalletyViewModel : ViewModel() {
-    private val _entries = MutableStateFlow(
-        listOf(
-            FinancialEntry(1, "Reeeeeee", 2813.41, "Despesa", "Alimentação", "07/04/2026"),
-            FinancialEntry(2, "Reembolso Plano de Saúde", 250.41, "Receita", "Reembolso", "07/04/2026"),
-            FinancialEntry(3, "Cinema Mario Galaxy", 120.00, "Despesa", "Entretenimento", "21/03/2026")
+    var entries = mutableStateListOf<Entry>()
+
+    var showAddEntryDialog by mutableStateOf(false)
+
+    init {
+        loadEntries()
+    }
+
+    private fun loadEntries() {
+        viewModelScope.launch {
+            repository.getAllEntriesStream().collect { dbEntries ->
+                entries.clear()
+                entries.addAll(dbEntries)
+            }
+        }
+    }
+
+    fun openDialog() {
+        showAddEntryDialog = true
+    }
+
+    fun closeDialog() {
+        showAddEntryDialog = false
+    }
+
+    fun addEntry(title: String, amount: Double, isExpense: Boolean, category: String, date: String, description: String) {
+        val newEntry = Entry(
+            title = title,
+            amount = amount,
+            isExpense = isExpense,
+            category = category,
+            date = date,
+            description = description
         )
-    )
-    val entries: StateFlow<List<FinancialEntry>> = _entries.asStateFlow()
+
+        viewModelScope.launch {
+            repository.insertEntry(newEntry)
+        }
+    }
 }

@@ -24,8 +24,6 @@ fun FamilyScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
-    val entries by viewModel.entries.collectAsState()
-
     Scaffold(
         containerColor = GreenBackground,
         bottomBar = {
@@ -57,7 +55,7 @@ fun FamilyScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(entries) { entry ->
+                items(viewModel.entries) { entry ->
                     EntryCard(entry = entry)
                 }
             }

@@ -6,11 +6,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -27,9 +22,6 @@ fun HomeScreen(
     onNavigateToFamily: () -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
-    val entries by viewModel.entries.collectAsState()
-    var showDialog by remember { mutableStateOf(false) }
-
     Scaffold(
         containerColor = GreenBackground,
         bottomBar = {
@@ -63,7 +55,7 @@ fun HomeScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Button(
-                    onClick = { showDialog = true },
+                    onClick = { viewModel.openDialog() },
                     colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -74,14 +66,14 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(entries) { entry ->
+                items(viewModel.entries) { entry ->
                     EntryCard(entry = entry)
                 }
             }
         }
-        if (showDialog) {
+        if (viewModel.showAddEntryDialog) {
             AddEntryModal(
-                onDismiss = { showDialog = false },
+                onDismiss = { viewModel.closeDialog() },
                 onSave = {
                     println("Oii")
                 }

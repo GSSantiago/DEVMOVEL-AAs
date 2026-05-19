@@ -14,11 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aa1_wallety.compose.FinancialEntry
+import com.aa1_wallety.repository.Entry
 import com.aa1_wallety.ui.theme.*
 
 @Composable
-fun EntryCard(entry: FinancialEntry) {
+fun EntryCard(entry: Entry) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -32,10 +32,10 @@ fun EntryCard(entry: FinancialEntry) {
             Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier.size(40.dp).clip(CircleShape)
-                        .background(if (entry.type == "Receita") GreenPrimary else GrayLight),
+                        .background(if (!entry.isExpense) GreenPrimary else GrayLight),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(if (entry.type == "Receita") "💰" else "🛒", fontSize = 18.sp)
+                    Text(if (!entry.isExpense) "💰" else "🛒", fontSize = 18.sp)
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
@@ -44,8 +44,8 @@ fun EntryCard(entry: FinancialEntry) {
                 }
             }
             Column(horizontalAlignment = Alignment.End) {
-                val color = if (entry.type == "Receita") GreenIncome else RedPrimary
-                val signal = if (entry.type == "Receita") "+" else "-"
+                val color = if (!entry.isExpense) GreenIncome else RedPrimary
+                val signal = if (!entry.isExpense) "+" else "-"
                 val formattedAmount = String.format("%.2f", entry.amount).replace(".", ",")
 
                 Text("$signal R$ $formattedAmount", color = color, fontWeight = FontWeight.Bold, fontSize = 16.sp)

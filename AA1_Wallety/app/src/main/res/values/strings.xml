@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AA1_Wallety</string>
 
+    <string name="user_name" translatable="false">André</string>
+    <string name="user_family" translatable="false">Endo</string>
+
     <string name="login_title">Faça login no Wallety</string>
     <string name="login_email_label">Endereço de email</string>
     <string name="login_password_label">Senha</string>

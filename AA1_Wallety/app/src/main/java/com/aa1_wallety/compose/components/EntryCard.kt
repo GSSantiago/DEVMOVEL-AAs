@@ -11,14 +11,48 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.aa1_wallety.repository.Entry
+import com.aa1_wallety.repository.FamilyEntry
 import com.aa1_wallety.ui.theme.*
-
+import java.text.NumberFormat
 @Composable
 fun EntryCard(entry: Entry) {
+    EntryCardContent(
+        title = entry.title,
+        amount = entry.amount,
+        isExpense = entry.isExpense,
+        category = entry.category,
+        date = entry.date,
+        avatarUrl = null
+    )
+}
+
+@Composable
+fun EntryCard(entry: FamilyEntry) {
+    EntryCardContent(
+        title = entry.title,
+        amount = entry.amount,
+        isExpense = entry.isExpense,
+        category = entry.category,
+        date = entry.date,
+        avatarUrl = entry.avatar
+    )
+}
+
+@Composable
+private fun EntryCardContent(
+    title: String,
+    amount: Double,
+    isExpense: Boolean,
+    category: String,
+    date: String,
+    avatarUrl: String?
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -30,26 +64,39 @@ fun EntryCard(entry: Entry) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier.size(40.dp).clip(CircleShape)
-                        .background(if (!entry.isExpense) GreenPrimary else GrayLight),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(if (!entry.isExpense) "💰" else "🛒", fontSize = 18.sp)
+
+                if (!avatarUrl.isNullOrEmpty()) {
+                    AsyncImage(
+                        model = avatarUrl,
+                        contentDescription = "Avatar",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier.size(40.dp).clip(CircleShape)
+                            .background(if (!isExpense) GreenPrimary else GrayLight),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(if (!isExpense) "💰" else "🛒", fontSize = 18.sp)
+                    }
                 }
+
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
-                    Text(entry.title, fontWeight = FontWeight.Bold, color = GrayText, fontSize = 16.sp)
-                    Text(entry.category, color = GrayText, fontSize = 14.sp)
+                    Text(title, fontWeight = FontWeight.Bold, color = GrayText, fontSize = 16.sp)
+                    Text(category, color = GrayText, fontSize = 14.sp)
                 }
             }
             Column(horizontalAlignment = Alignment.End) {
-                val color = if (!entry.isExpense) GreenIncome else RedPrimary
-                val signal = if (!entry.isExpense) "+" else "-"
-                val formattedAmount = String.format("%.2f", entry.amount).replace(".", ",")
+                val color = if (!isExpense) GreenIncome else RedPrimary
+                val signal = if (!isExpense) "+" else "-"
+                val formattedAmount = NumberFormat.getCurrencyInstance().format(amount)
 
-                Text("$signal R$ $formattedAmount", color = color, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text(entry.date, color = GrayText, fontSize = 14.sp)
+                Text("$signal $formattedAmount", color = color, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(date, color = GrayText, fontSize = 14.sp)
             }
         }
     }

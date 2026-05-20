@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.aa1_wallety.repository.WalletyDatabase
 import com.aa1_wallety.repository.EntryRepository
+import com.aa1_wallety.repository.FamilyRepository
 
 class WalletyApplication : Application() {
 lateinit var container: AppContainer
@@ -19,5 +20,9 @@ lateinit var container: AppContainer
 class AppContainer(private val context: Context) {
     val repository : EntryRepository by lazy {
         EntryRepository(WalletyDatabase.getDatabase(context).entryDao())
+    }
+
+    val familyRepository : FamilyRepository by lazy {
+        FamilyRepository(WalletyDatabase.getDatabase(context).familyDao())
     }
 }

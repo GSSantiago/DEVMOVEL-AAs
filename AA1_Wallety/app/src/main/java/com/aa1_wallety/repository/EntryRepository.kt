@@ -9,7 +9,7 @@ class EntryRepository(private val entryDao: EntryDao) {
     private var client: EntryInterface
 
     init {
-        client = RetrofitInstance.api
+        client = RetrofitInstance.entryApi
     }
 
     fun getAllEntries(): Flow<List<Entry>> = entryDao.getAllEntries()

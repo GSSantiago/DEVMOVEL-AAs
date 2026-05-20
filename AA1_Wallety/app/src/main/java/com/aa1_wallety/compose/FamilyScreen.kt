@@ -2,7 +2,6 @@ package com.aa1_wallety.compose
 
 import androidx.compose.ui.res.stringResource
 import com.aa1_wallety.R
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,7 +20,7 @@ import com.aa1_wallety.ui.theme.*
 
 @Composable
 fun FamilyScreen(
-    viewModel: WalletyViewModel,
+    viewModel: FamilyViewModel,
     onNavigateToHome: () -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
@@ -42,7 +41,7 @@ fun FamilyScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            FamilyBalanceCard()
+            FamilyBalanceCard(viewModel = viewModel)
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -56,8 +55,8 @@ fun FamilyScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(viewModel.entries) { entry ->
-                    EntryCard(entry = entry)
+                items(viewModel.entries) { familyEntry ->
+                    EntryCard(entry = familyEntry)
                 }
             }
         }
@@ -65,7 +64,7 @@ fun FamilyScreen(
 }
 
 @Composable
-fun FamilyBalanceCard() {
+fun FamilyBalanceCard(viewModel: FamilyViewModel) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -83,14 +82,14 @@ fun FamilyBalanceCard() {
 
                 Column {
                     Text(stringResource(id = R.string.family_balance), color = GrayText, fontSize = 14.sp)
-                    Text("Oliveira", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = GrayText)
+                    Text(stringResource(id = R.string.user_family), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = GrayText)
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(stringResource(id = R.string.total_balance), color = GrayText, fontSize = 14.sp)
-            Text("R$ 10.047,69", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = GrayText)
+            Text(viewModel.totalBalanceFormated, fontSize = 28.sp, fontWeight = FontWeight.Bold, color = GrayText)
 
             Spacer(modifier = Modifier.height(16.dp))
             HorizontalDivider(color = GrayLight)
@@ -102,11 +101,11 @@ fun FamilyBalanceCard() {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(stringResource(id = R.string.income), color = GrayText, fontSize = 14.sp)
-                    Text("R$ 14.450,00", color = GreenIncome, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(viewModel.familyIncomeFormated, color = GreenIncome, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(stringResource(id = R.string.expense), color = GrayText, fontSize = 14.sp)
-                    Text("R$ 4.402,61", color = RedPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(viewModel.familyExpenseFormated, color = RedPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
 
@@ -118,11 +117,11 @@ fun FamilyBalanceCard() {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(stringResource(id = R.string.income), color = GrayText, fontSize = 14.sp)
-                    Text("R$ 8.100,00", color = GreenIncome, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(viewModel.myIncomeFormated, color = GreenIncome, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(stringResource(id = R.string.expense), color = GrayText, fontSize = 14.sp)
-                    Text("R$ 2.813,41", color = RedPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(viewModel.myExpenseFormated, color = RedPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
         }

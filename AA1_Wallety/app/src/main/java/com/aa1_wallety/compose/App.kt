@@ -11,7 +11,9 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun WalletyApp() {
     val navController = rememberNavController()
-    val viewModel: WalletyViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val familyViewModel: FamilyViewModel = viewModel(factory = AppViewModelProvider.Factory)
+
 
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
@@ -29,7 +31,7 @@ fun WalletyApp() {
         }
         composable("family") {
             FamilyScreen(
-                viewModel = viewModel,
+                viewModel = familyViewModel,
                 onNavigateToHome = { navController.navigate("home")},
                 onNavigateToLogin = { navController.navigate("login") }
             )

@@ -12,8 +12,13 @@ import com.aa1_wallety.WalletyApplication
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            WalletyViewModel(walletyApplication().container.repository)
+            HomeViewModel(walletyApplication().container.repository)
         }
+
+        initializer {
+            FamilyViewModel(walletyApplication().container.familyRepository)
+        }
+
 
 
     }

@@ -20,7 +20,7 @@ import com.aa1_wallety.ui.theme.*
 
 @Composable
 fun HomeScreen(
-    viewModel: WalletyViewModel,
+    viewModel: HomeViewModel,
     onNavigateToFamily: () -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
@@ -94,7 +94,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun BalanceCard(viewModel: WalletyViewModel) {
+fun BalanceCard(viewModel: HomeViewModel) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -102,7 +102,7 @@ fun BalanceCard(viewModel: WalletyViewModel) {
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(stringResource(id = R.string.home_greeting), color = GrayText, fontSize = 14.sp)
-            Text("Roberto!", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = GrayText)
+            Text( stringResource(id = R.string.user_name), fontSize = 24.sp, fontWeight = FontWeight.Bold, color = GrayText)
 
             Spacer(modifier = Modifier.height(16.dp))
 

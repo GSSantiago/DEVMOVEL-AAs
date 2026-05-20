@@ -11,7 +11,7 @@ import com.aa1_wallety.repository.EntryRepository
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 
-class WalletyViewModel(private val repository: EntryRepository) : ViewModel() {
+class HomeViewModel(private val repository: EntryRepository) : ViewModel() {
 
     var entries = mutableStateListOf<Entry>()
 

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.aa1_wallety.WalletyApplication
 
 /**
- * Provides Factory to create instance of ViewModel for the entire Game app
+ * Provides Factory to create instance of ViewModel for the entire Wallety app
  */
 object AppViewModelProvider {
     val Factory = viewModelFactory {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AA1_Wallety</string>
+
+    <string name="login_title">Log in to Wallety</string>
+    <string name="login_email_label">Email address</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_button_enter">Enter</string>
+    <string name="login_button_register">Register</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_family">Family</string>
+    <string name="nav_account">Account</string>
+
+    <string name="home_greeting">Hello,</string>
+    <string name="total_balance">Total balance</string>
+    <string name="income">Income</string>
+    <string name="expense">Expenses</string>
+    <string name="last_entries">Last entries</string>
+    <string name="add_entry_button">Add entry</string>
+
+    <string name="family_last_entry">Family\'s Last Entries</string>
+    <string name="family_balance">Family Balance</string>
+    <string name="family_contribuition">Your contribution</string>
+    <string name="family_total">Family total</string>
+
+    <string name="modal_add_title">Add Entry</string>
+    <string name="modal_expense">Expense</string>
+    <string name="modal_income">Income</string>
+    <string name="modal_title_label">Title</string>
+    <string name="modal_amount_label">Amount (R$)</string>
+    <string name="modal_category_label">Category</string>
+    <string name="modal_date_label">Date</string>
+    <string name="modal_desc_label">Description</string>
+    <string name="modal_save_button">Save Entry</string>
+    <string name="modal_cancel">Cancel</string>
+    <string name="modal_ok">OK</string>
+</resources>

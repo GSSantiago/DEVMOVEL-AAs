@@ -8,9 +8,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.aa1_wallety.R
 import com.aa1_wallety.compose.components.AddEntryModal
 import com.aa1_wallety.compose.components.EntryCard
 import com.aa1_wallety.compose.components.BottomNavigation
@@ -49,7 +51,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Últimas entradas",
+                    text = stringResource(id = R.string.last_entries),
                     color = White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
@@ -59,7 +61,7 @@ fun HomeScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Text("Adicionar entrada", color = White)
+                    Text(stringResource(id = R.string.add_entry_button), color = White)
                 }
             }
 
@@ -99,12 +101,12 @@ fun BalanceCard(viewModel: WalletyViewModel) {
         colors = CardDefaults.cardColors(containerColor = White)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
-            Text("Olá,", color = GrayText, fontSize = 14.sp)
+            Text(stringResource(id = R.string.home_greeting), color = GrayText, fontSize = 14.sp)
             Text("Roberto!", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = GrayText)
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text("Saldo total", color = GrayText, fontSize = 14.sp)
+            Text(stringResource(id = R.string.total_balance), color = GrayText, fontSize = 14.sp)
             Text(viewModel.balanceFormated, fontSize = 28.sp, fontWeight = FontWeight.Bold, color = GrayText)
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -114,11 +116,11 @@ fun BalanceCard(viewModel: WalletyViewModel) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Entradas", color = GrayText, fontSize = 14.sp)
+                    Text(stringResource(id = R.string.income), color = GrayText, fontSize = 14.sp)
                     Text(viewModel.incomeFormated, color = GreenIncome, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
                 Column {
-                    Text("Gastos", color = GrayText, fontSize = 14.sp)
+                    Text(stringResource(id = R.string.expense), color = GrayText, fontSize = 14.sp)
                     Text(viewModel.expenseFormated, color = RedPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }

@@ -10,12 +10,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.aa1_wallety.R
 import com.aa1_wallety.compose.AddEntryModalViewModel
 import com.aa1_wallety.ui.theme.*
 import java.text.SimpleDateFormat
@@ -47,7 +49,7 @@ fun AddEntryModal(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Adicionar Entrada", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = GrayText)
+                    Text(stringResource(id = R.string.modal_add_title), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = GrayText)
                     IconButton(onClick = onDismiss) {
                         Icon(imageVector = Icons.Default.Close, contentDescription = "Fechar")
                     }
@@ -64,7 +66,7 @@ fun AddEntryModal(
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text("Despesa", color = if (viewModel.isExpense) White else GrayText)
+                        Text(stringResource(id = R.string.modal_expense), color = if (viewModel.isExpense) White else GrayText)
                     }
                     Button(
                         onClick = { viewModel.setTransactionType(false) },
@@ -74,7 +76,7 @@ fun AddEntryModal(
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text("Receita", color = if (!viewModel.isExpense) White else GrayText)
+                        Text(stringResource(id = R.string.modal_income), color = if (!viewModel.isExpense) White else GrayText)
                     }
                 }
 
@@ -83,7 +85,7 @@ fun AddEntryModal(
                 OutlinedTextField(
                     value = viewModel.title,
                     onValueChange = { viewModel.title = it },
-                    label = { Text("Título") },
+                    label = { Text(stringResource(id = R.string.modal_title_label)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
@@ -93,7 +95,7 @@ fun AddEntryModal(
                 OutlinedTextField(
                     value = viewModel.amount,
                     onValueChange = { viewModel.updateAmount(it) },
-                    label = { Text("Valor (R$)") },
+                    label = { Text(stringResource(id = R.string.modal_amount_label)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -109,7 +111,7 @@ fun AddEntryModal(
                         value = viewModel.category,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Categoria") },
+                        label = { Text(stringResource(id = R.string.modal_category_label)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.expanded) },
                         modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable).fillMaxWidth(),
                     )
@@ -135,7 +137,7 @@ fun AddEntryModal(
                     value = viewModel.date,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Data") },
+                    label = { Text(stringResource(id = R.string.modal_date_label)) },
                     trailingIcon = {
                         IconButton(onClick = { viewModel.showDatePicker = true }) {
                             Icon(Icons.Default.CalendarToday, contentDescription = null)
@@ -153,7 +155,7 @@ fun AddEntryModal(
                                     viewModel.date = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(it))
                                 }
                                 viewModel.showDatePicker = false
-                            }) { Text("OK", color = GreenPrimary) }
+                            }) { Text(stringResource(id = R.string.modal_ok), color = GreenPrimary) }
                         }
                     ) {
                         DatePicker(state = datePickerState)
@@ -165,7 +167,7 @@ fun AddEntryModal(
                 OutlinedTextField(
                     value = viewModel.description,
                     onValueChange = { viewModel.description = it },
-                    label = { Text("Descrição") },
+                    label = { Text(stringResource(id = R.string.modal_desc_label)) },
                     modifier = Modifier.fillMaxWidth().height(100.dp)
                 )
 
@@ -188,7 +190,7 @@ fun AddEntryModal(
                     colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Text("Salvar Entrada", color = White, fontSize = 16.sp)
+                    Text(stringResource(id = R.string.modal_save_button), color = White, fontSize = 16.sp)
                 }
             }
         }

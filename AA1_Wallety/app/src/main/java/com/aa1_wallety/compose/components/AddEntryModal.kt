@@ -2,6 +2,7 @@ package com.aa1_wallety.compose.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Close
@@ -10,9 +11,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.aa1_wallety.compose.AddEntryModalViewModel
 import com.aa1_wallety.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -22,23 +26,10 @@ import java.util.Locale
 @Composable
 fun AddEntryModal(
     onDismiss: () -> Unit,
-    onSave: (String, String, Boolean, String, String, String) -> Unit
+    onSave: (String, String, Boolean, String, String, String) -> Unit,
+    viewModel: AddEntryModalViewModel = viewModel()
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    val categoriesDespesa = listOf("Alimentação", "Saúde", "Transporte", "Lazer", "Outros")
-    val categoriesReceita = listOf("Salário", "Freelance", "Presente", "Reembolso", "Outros")
-
-    var category by remember { mutableStateOf(categoriesDespesa[0]) }
-    var categories: List<String> = categoriesDespesa;
-
-    var showDatePicker by remember { mutableStateOf(false) }
-    var date by remember { mutableStateOf("01/01/2026") }
     val datePickerState = rememberDatePickerState()
-
-    var isExpense by remember { mutableStateOf(true) }
-    var title by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("R$ 0,00") }
-    var description by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
@@ -66,40 +57,32 @@ fun AddEntryModal(
 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(
-                        onClick = {
-                            isExpense = true
-                            categories  = categoriesDespesa
-                            category = categoriesDespesa[0]
-                                  },
+                        onClick = { viewModel.setTransactionType(true) },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = if (isExpense) RedPrimary else GrayLight
+                            containerColor = if (viewModel.isExpense) RedPrimary else GrayLight
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text("Despesa", color = if (isExpense) White else GrayText)
+                        Text("Despesa", color = if (viewModel.isExpense) White else GrayText)
                     }
                     Button(
-                        onClick = {
-                            isExpense = false
-                            categories = categoriesReceita
-                            category = categoriesReceita[0]
-                                  },
+                        onClick = { viewModel.setTransactionType(false) },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = if (!isExpense) GreenPrimary else GrayLight
+                            containerColor = if (!viewModel.isExpense) GreenPrimary else GrayLight
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text("Receita", color = if (!isExpense) White else GrayText)
+                        Text("Receita", color = if (!viewModel.isExpense) White else GrayText)
                     }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
+                    value = viewModel.title,
+                    onValueChange = { viewModel.title = it },
                     label = { Text("Título") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
@@ -108,37 +91,38 @@ fun AddEntryModal(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(
-                    value = amount,
-                    onValueChange = { amount = it },
+                    value = viewModel.amount,
+                    onValueChange = { viewModel.updateAmount(it) },
                     label = { Text("Valor (R$)") },
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 ExposedDropdownMenuBox(
-                    expanded = expanded,
-                    onExpandedChange = { expanded = !expanded }
+                    expanded = viewModel.expanded,
+                    onExpandedChange = { viewModel.expanded = !viewModel.expanded }
                 ) {
                     OutlinedTextField(
-                        value = category,
+                        value = viewModel.category,
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Categoria") },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = viewModel.expanded) },
                         modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable).fillMaxWidth(),
                     )
                     ExposedDropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        expanded = viewModel.expanded,
+                        onDismissRequest = { viewModel.expanded = false }
                     ) {
-                        categories.forEach { item ->
+                        viewModel.categories.forEach { item ->
                             DropdownMenuItem(
                                 text = { Text(item) },
                                 onClick = {
-                                    category = item
-                                    expanded = false
+                                    viewModel.category = item
+                                    viewModel.expanded = false
                                 }
                             )
                         }
@@ -148,40 +132,39 @@ fun AddEntryModal(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(
-                    value = date,
+                    value = viewModel.date,
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Data") },
                     trailingIcon = {
-                        IconButton(onClick = { showDatePicker = true }) {
+                        IconButton(onClick = { viewModel.showDatePicker = true }) {
                             Icon(Icons.Default.CalendarToday, contentDescription = null)
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
-                if (showDatePicker) {
+                if (viewModel.showDatePicker) {
                     DatePickerDialog(
-                        onDismissRequest = { showDatePicker = false },
+                        onDismissRequest = { viewModel.showDatePicker = false },
                         confirmButton = {
                             TextButton(onClick = {
                                 datePickerState.selectedDateMillis?.let {
-                                    date = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
-                                        Date(it)
-                                    )
+                                    viewModel.date = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(it))
                                 }
-                                showDatePicker = false
+                                viewModel.showDatePicker = false
                             }) { Text("OK", color = GreenPrimary) }
                         }
                     ) {
                         DatePicker(state = datePickerState)
                     }
                 }
+
                 Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
+                    value = viewModel.description,
+                    onValueChange = { viewModel.description = it },
                     label = { Text("Descrição") },
                     modifier = Modifier.fillMaxWidth().height(100.dp)
                 )
@@ -190,7 +173,15 @@ fun AddEntryModal(
 
                 Button(
                     onClick = {
-                        onSave(title, amount, isExpense, category, date, description)
+                        onSave(
+                            viewModel.title,
+                            viewModel.amount,
+                            viewModel.isExpense,
+                            viewModel.category,
+                            viewModel.date,
+                            viewModel.description
+                        )
+                        viewModel.resetValues()
                         onDismiss()
                     },
                     modifier = Modifier.fillMaxWidth().height(50.dp),

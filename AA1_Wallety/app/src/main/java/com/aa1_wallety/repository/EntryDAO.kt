@@ -1,6 +1,7 @@
 package com.aa1_wallety.repository
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -13,4 +14,7 @@ interface EntryDao {
 
     @Insert
     suspend fun insertEntry(entry: Entry)
+
+    @Query("DELETE FROM Entry")
+    suspend fun deleteAllEntries()
 }

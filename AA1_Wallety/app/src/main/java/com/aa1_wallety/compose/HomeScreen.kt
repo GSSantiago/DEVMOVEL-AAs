@@ -39,7 +39,7 @@ fun HomeScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            BalanceCard()
+            BalanceCard(viewModel)
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -74,8 +74,17 @@ fun HomeScreen(
         if (viewModel.showAddEntryDialog) {
             AddEntryModal(
                 onDismiss = { viewModel.closeDialog() },
-                onSave = {
-                    println("Oii")
+                onSave = { title, amountStr, isExpense, category, date, desc ->
+                    val amountDouble = amountStr.replace(Regex("[^0-9,]"), "").replace(",", ".").toDoubleOrNull() ?: 0.0
+
+                    viewModel.addEntry(
+                        title = title,
+                        amount = amountDouble,
+                        isExpense = isExpense,
+                        category = category,
+                        date = date,
+                        description = desc
+                    )
                 }
             )
         }
@@ -83,7 +92,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun BalanceCard() {
+fun BalanceCard(viewModel: WalletyViewModel) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -96,7 +105,7 @@ fun BalanceCard() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text("Saldo total", color = GrayText, fontSize = 14.sp)
-            Text("R$ 5.268,59", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = GrayText)
+            Text(viewModel.balanceFormated, fontSize = 28.sp, fontWeight = FontWeight.Bold, color = GrayText)
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -106,11 +115,11 @@ fun BalanceCard() {
             ) {
                 Column {
                     Text("Entradas", color = GrayText, fontSize = 14.sp)
-                    Text("R$ 8.100,00", color = GreenIncome, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(viewModel.incomeFormated, color = GreenIncome, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
                 Column {
                     Text("Gastos", color = GrayText, fontSize = 14.sp)
-                    Text("R$ 2.813,41", color = RedPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(viewModel.expenseFormated, color = RedPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
         }

@@ -22,7 +22,7 @@ import java.util.Locale
 @Composable
 fun AddEntryModal(
     onDismiss: () -> Unit,
-    onSave: () -> Unit
+    onSave: (String, String, Boolean, String, String, String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     val categoriesDespesa = listOf("Alimentação", "Saúde", "Transporte", "Lazer", "Outros")
@@ -190,7 +190,7 @@ fun AddEntryModal(
 
                 Button(
                     onClick = {
-                        onSave()
+                        onSave(title, amount, isExpense, category, date, description)
                         onDismiss()
                     },
                     modifier = Modifier.fillMaxWidth().height(50.dp),

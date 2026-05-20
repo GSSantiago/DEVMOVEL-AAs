@@ -9,16 +9,31 @@ import androidx.lifecycle.viewModelScope
 import com.aa1_wallety.repository.Entry
 import com.aa1_wallety.repository.EntryRepository
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 
 class WalletyViewModel(private val repository: EntryRepository) : ViewModel() {
 
     var entries = mutableStateListOf<Entry>()
 
+    private val totalIncome: Double
+        get() = entries.filter { !it.isExpense }.sumOf { it.amount }
+
+    private val totalExpense: Double
+        get() = entries.filter { it.isExpense }.sumOf { it.amount }
+
+    val balanceFormated: String
+        get() = NumberFormat.getCurrencyInstance().format(totalIncome - totalExpense)
+
+    val incomeFormated: String
+        get() = NumberFormat.getCurrencyInstance().format(totalIncome)
+
+    val expenseFormated: String
+        get() = NumberFormat.getCurrencyInstance().format(totalExpense)
     var showAddEntryDialog by mutableStateOf(false)
 
     init {
-        loadEntries()
         syncWithApi()
+        loadEntries()
     }
 
     private fun syncWithApi() {

@@ -28,6 +28,8 @@ class EntryRepository(private val entryDao: EntryDao) {
         try {
             val apiEntries = client.getEntries()
 
+            entryDao.deleteAllEntries()
+
             apiEntries.forEach { apiEntry ->
                 entryDao.insertEntry(apiEntry)
             }

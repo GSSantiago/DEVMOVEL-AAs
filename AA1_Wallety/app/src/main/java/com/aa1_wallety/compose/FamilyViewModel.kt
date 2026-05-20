@@ -31,12 +31,12 @@ class FamilyViewModel(private val repository: FamilyRepository) : ViewModel() {
 
     val myIncomeFormated: String
         get() = NumberFormat.getCurrencyInstance().format(
-            entries.take(3).filter { !it.isExpense }.sumOf { it.amount }
+            entries.takeLast(3).filter { !it.isExpense }.sumOf { it.amount }
         )
 
     val myExpenseFormated: String
         get() = NumberFormat.getCurrencyInstance().format(
-            entries.take(3).filter { it.isExpense }.sumOf { it.amount }
+            entries.takeLast(3).filter { it.isExpense }.sumOf { it.amount }
         )
     init {
         syncWithApi()
